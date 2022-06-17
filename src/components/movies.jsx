@@ -57,10 +57,10 @@ class Movies extends Component {
                 >
                   Delete
                 </button> 
-              </td>
+              </td> 
             </tr>
           ))}
-        </tbody>
+        </tbody> 
       </table>
       <nav aria-label="Page navigation example">
           <ul class="pagination">
