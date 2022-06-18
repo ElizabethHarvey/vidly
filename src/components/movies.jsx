@@ -5,7 +5,6 @@ import Pagination from "./common/pagination";
 import { getMovies } from "../services/fakeMovieService.js";
 import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "../utils/paginate";
-import { toHaveAccessibleDescription } from "@testing-library/jest-dom/dist/matchers";
 
 class Movies extends Component {
   state = {
@@ -16,7 +15,9 @@ class Movies extends Component {
   };
 
   componentDidMount() {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+    const genres = [{ name: "All Genres" }, ...getGenres()];
+
+    this.setState({ movies: getMovies(), genres });
   }
 
   handleDelete = (movie) => {
@@ -37,7 +38,7 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genres) => {
-    this.setState({ selectedGenre: genres });
+    this.setState({ selectedGenre: genres, currentPage: 1 });
   };
 
   render() {
@@ -51,11 +52,12 @@ class Movies extends Component {
 
     if (count === 0) return <p>There are no movies in the database</p>;
 
-    const filtered = selectedGenre
-      ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-      : allMovies;
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+        : allMovies;
 
-    const movies = paginate(filtered, allMovies, currentPage, pageSize);
+    const movies = paginate(filtered, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -66,7 +68,7 @@ class Movies extends Component {
             onItemSelect={this.handleGenreSelect}
           />
         </div>
-        <div className="col"> 
+        <div className="col">
           <p>Showing {filtered.length} movies in the database</p>
           <table className="table">
             <thead>
@@ -83,7 +85,7 @@ class Movies extends Component {
               {movies.map((movie) => (
                 <tr key={movie._id}>
                   <td>{movie.title}</td>
-                  <td>{movie.genre.name}</td> 
+                  <td>{movie.genre.name}</td>
                   <td>{movie.numberInStock}</td>
                   <td>{movie.dailyRentalRate}</td>
                   <td>
@@ -97,7 +99,7 @@ class Movies extends Component {
                     <button
                       onClick={() => this.handleDelete(movie)}
                       className="btn btn-danger btn-sm"
-                    > 
+                    >
                       Delete
                     </button>
                   </td>
