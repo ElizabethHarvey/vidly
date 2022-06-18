@@ -5,6 +5,7 @@ import Pagination from "./common/pagination";
 import { getMovies } from "../services/fakeMovieService.js";
 import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "../utils/paginate";
+import { toHaveAccessibleDescription } from "@testing-library/jest-dom/dist/matchers";
 
 class Movies extends Component {
   state = {
@@ -36,7 +37,7 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genres) => {
-    console.log(genres);
+   this.setState({ selectedGenre: genres });
   };
 
   render() {
@@ -52,6 +53,7 @@ class Movies extends Component {
         <div className="col-3">
           <ListGroup
             items={this.state.genres}
+            selectedItem={this.state.selectedGenre}
             onItemSelect={this.handleGenreSelect}
           />
         </div>
