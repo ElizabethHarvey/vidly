@@ -18,7 +18,7 @@ class LoginForm extends Component {
     const { error } = Joi.validate(this.state.account, this.schema, options);
     if (!error) return null;
 
-    const errors = {};
+    const errors = {}; 
     for (let item of error.details) errors[item.path[0]] = item.message;
     return errors;
   };
