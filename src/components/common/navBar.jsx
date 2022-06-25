@@ -1,4 +1,5 @@
 import React from "react";
+import Register from "../registerForm";
 import { Link, NavLink } from 'react-router-dom'
 
 const NavBar = () => {
@@ -21,6 +22,9 @@ const NavBar = () => {
       </li>
       <li className="nav-item">
         <NavLink className="nav-link" to="/loginForm">Login</NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link" to="/register">Register</NavLink>
       </li>
     </ul>
   </div>
