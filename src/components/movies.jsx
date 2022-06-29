@@ -47,7 +47,7 @@ class Movies extends Component {
     this.setState({ selectedGenre: genres, searchQuery: "", currentPage: 1 });
   };
 
-  handleSearch = (query) => {
+  handleSearch = query => {
     this.setState({
       searchQuery: query,
       selectedGenre: null,
@@ -69,10 +69,10 @@ class Movies extends Component {
       movies: allMovies,
     } = this.state;
 
-    const filtered = allMovies;
+   let filtered = allMovies;
     if (searchQuery)
       filtered = allMovies.filter(m =>
-        m.title.toLowerCase().startWith(searchQuery.toLowerCase())
+        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
     else if (selectedGenre && selectedGenre._id)
       filtered = allMovies.filter(m => m.genre._id === selectedGenre._id);
