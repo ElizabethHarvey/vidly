@@ -4,6 +4,7 @@ import Form from "./common/form";
 import { getMovie, saveMovie } from "../services/fakeMovieService";
 import { getGenres } from "../services/genreService";
 
+
 class MovieForm extends Form {
   state = {
     data: {
@@ -64,8 +65,8 @@ class MovieForm extends Form {
     };
   }
 
-  doSubmit = () => {
-    saveMovie(this.state.data);
+  doSubmit = async () => {
+    await saveMovie(this.state.data);
 
     this.props.history.push("/movies");
   };
