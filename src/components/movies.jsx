@@ -21,7 +21,7 @@ class Movies extends Component {
     sortColumn: { path: "title", order: "asc" },
   };
 
-   async componentDidMount() {
+  async componentDidMount() {
     const { data } = await getGenres();
     const genres = [{ _id: "", name: "All Genres" }, ...data];
 
@@ -29,19 +29,18 @@ class Movies extends Component {
     this.setState({ movies, genres });
   }
 
-  handleDelete = async movie => {
+  handleDelete = async (movie) => {
     const originalMovies = this.state.movies;
     const movies = originalMovies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
 
     try {
-      await deleteMovie(movie._id)
-    }
-    catch (ex) {
+      await deleteMovie(movie._id);
+    } catch (ex) {
       if (ex.response && ex.response.status === 404)
-        toast.error('This movie has already been deleted.');
+        toast.error("This movie has already been deleted.");
 
-        this.setState({ movies: originalMovies });
+      this.setState({ movies: originalMovies });
     }
   };
 
@@ -61,7 +60,7 @@ class Movies extends Component {
     this.setState({ selectedGenre: genres, searchQuery: "", currentPage: 1 });
   };
 
-  handleSearch = query => {
+  handleSearch = (query) => {
     this.setState({
       searchQuery: query,
       selectedGenre: null,
@@ -83,13 +82,13 @@ class Movies extends Component {
       movies: allMovies,
     } = this.state;
 
-   let filtered = allMovies;
+    let filtered = allMovies;
     if (searchQuery)
-      filtered = allMovies.filter(m =>
+      filtered = allMovies.filter((m) =>
         m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
     else if (selectedGenre && selectedGenre._id)
-      filtered = allMovies.filter(m => m.genre._id === selectedGenre._id);
+      filtered = allMovies.filter((m) => m.genre._id === selectedGenre._id);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
@@ -102,6 +101,7 @@ class Movies extends Component {
     const { length: count } = this.state.movies;
     const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
     const { user } = this.props;
+    // console.log('user: ', user);
 
     if (count === 0) return <p>There are no movies in the database</p>;
 
@@ -109,7 +109,7 @@ class Movies extends Component {
 
     return (
       <div className="row">
-        <div className="col-3">
+        <div className="col-2">
           <ListGroup
             items={this.state.genres}
             selectedItem={this.state.selectedGenre}
@@ -117,14 +117,14 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          {user && (
-          <Link
-            to="/movies/new"
-            className="btn btn-primary"
-            style={{ marginBottom: 20 }}
-          >
-            New Movie
-          </Link>
+          {!user && (
+            <Link
+              to="/movies/new"
+              className="btn btn-primary"
+              style={{ marginBottom: 20 }}
+            >
+              New Movie
+            </Link>
           )}
           <p>Showing {totalCount} movies in the database</p>
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
