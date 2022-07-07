@@ -39,17 +39,17 @@ class MovieForm extends Form {
 
 
   // MOVIE WON'T WORK BECAUSE IT KEEPS GOING TO NOT-FOUND BECAUSE OF POPULATE_MOVIE
-  // async populateMovie() {
-  //   try {
-  //     const movieId = this.props.match.params.id;
-  //     if (movieId === "new") return;
-  //     const { data: movie } = await getMovie(movieId);
-  //     this.setState({ data: this.mapToViewModel(movie) });
-  //   } catch (ex) {
-  //     if (ex.response && ex.response.status === 404)
-  //       this.props.history.replace("/not-found");
-  //   }
-  // }
+  async populateMovie() {
+    try {
+      const movieId = this.props.match.params.id;
+      if (movieId === "new") return;
+      const { data: movie } = await getMovie(movieId);
+      this.setState({ data: this.mapToViewModel(movie) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        this.props.history.replace("/not-found");
+    }
+  }
 
   async componentDidMount() {
     await this.populateGenres();
