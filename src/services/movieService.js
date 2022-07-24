@@ -5,7 +5,7 @@ const apiEndpoint = config.apiUrl + "/movies";
 
 function movieUrl(id) {
   return `${apiEndpoint}/${id}`;
-}
+}     
 
 export function getMovies() {
   return http.get(apiEndpoint);
